@@ -89,12 +89,12 @@
           <div class="recommend-message"><span>一封月光短信</span><strong id="recommendMessage">愿岁岁团圆，年年有余。</strong></div>
         </div>
         <div class="flavor-grid">
-          <article class="flavor-card reveal"><div class="flavor-number">01</div><div class="flavor-visual cream" role="img" aria-label="蛋黄白莲月饼实拍图"></div><h3>蛋黄白莲</h3><p>经典 · 圆满 · 家的味道</p></article>
-          <article class="flavor-card reveal reveal-delay-1"><div class="flavor-number">02</div><div class="flavor-visual tea" role="img" aria-label="桂花乌龙月饼实拍图"></div><h3>桂花乌龙</h3><p>清香 · 东方 · 温柔</p></article>
-          <article class="flavor-card reveal reveal-delay-2"><div class="flavor-number">03</div><div class="flavor-visual custard" role="img" aria-label="流心奶黄月饼切面实拍图"></div><h3>流心奶黄</h3><p>浓郁 · 细腻 · 惊喜</p></article>
-          <article class="flavor-card reveal"><div class="flavor-number">04</div><div class="flavor-visual sesame" role="img" aria-label="黑芝麻月饼实拍图"></div><h3>黑芝麻</h3><p>醇厚 · 沉稳 · 回甘</p></article>
-          <article class="flavor-card reveal reveal-delay-1"><div class="flavor-number">05</div><div class="flavor-visual matcha" role="img" aria-label="抹茶柚子月饼实拍图"></div><h3>抹茶柚子</h3><p>清新 · 明亮 · 年轻</p></article>
-          <article class="flavor-card reveal reveal-delay-2"><div class="flavor-number">06</div><div class="flavor-visual purple" role="img" aria-label="紫薯乳酪月饼实拍图"></div><h3>紫薯乳酪</h3><p>柔软 · 特别 · 甜蜜</p></article>
+          <article class="flavor-card reveal" tabindex="0" role="button" data-flavor="egg"><div class="flavor-number">01</div><div class="flavor-visual cream" role="img" aria-label="蛋黄白莲月饼实拍图"></div><h3>蛋黄白莲</h3><p>经典 · 圆满 · 家的味道</p><span class="flavor-buy">点进去购买 ↗</span></article>
+          <article class="flavor-card reveal reveal-delay-1" tabindex="0" role="button" data-flavor="tea"><div class="flavor-number">02</div><div class="flavor-visual tea" role="img" aria-label="桂花乌龙月饼实拍图"></div><h3>桂花乌龙</h3><p>清香 · 东方 · 温柔</p><span class="flavor-buy">点进去购买 ↗</span></article>
+          <article class="flavor-card reveal reveal-delay-2" tabindex="0" role="button" data-flavor="custard"><div class="flavor-number">03</div><div class="flavor-visual custard" role="img" aria-label="流心奶黄月饼切面实拍图"></div><h3>流心奶黄</h3><p>浓郁 · 细腻 · 惊喜</p><span class="flavor-buy">点进去购买 ↗</span></article>
+          <article class="flavor-card reveal" tabindex="0" role="button" data-flavor="sesame"><div class="flavor-number">04</div><div class="flavor-visual sesame" role="img" aria-label="黑芝麻月饼实拍图"></div><h3>黑芝麻</h3><p>醇厚 · 沉稳 · 回甘</p><span class="flavor-buy">点进去购买 ↗</span></article>
+          <article class="flavor-card reveal reveal-delay-1" tabindex="0" role="button" data-flavor="matcha"><div class="flavor-number">05</div><div class="flavor-visual matcha" role="img" aria-label="抹茶柚子月饼实拍图"></div><h3>抹茶柚子</h3><p>清新 · 明亮 · 年轻</p><span class="flavor-buy">点进去购买 ↗</span></article>
+          <article class="flavor-card reveal reveal-delay-2" tabindex="0" role="button" data-flavor="purple"><div class="flavor-number">06</div><div class="flavor-visual purple" role="img" aria-label="紫薯乳酪月饼实拍图"></div><h3>紫薯乳酪</h3><p>柔软 · 特别 · 甜蜜</p><span class="flavor-buy">点进去购买 ↗</span></article>
         </div>
       </section>
 
@@ -138,6 +138,15 @@
         <div class="greeting-video reveal"><video controls preload="metadata" poster="assets/poster.jpg" aria-label="星火全体成员中秋祝福视频"><source src="assets/xinghuo-greeting.mp4" type="video/mp4" />你的浏览器暂不支持视频播放。</video><div class="video-corner">星火 / GREETINGS</div></div>
       </section>
     </main>
+
+    <div id="purchaseModal" class="purchase-modal" hidden>
+      <div class="purchase-backdrop" data-close="true"></div>
+      <section class="purchase-dialog" role="dialog" aria-modal="true" aria-labelledby="productName">
+        <button id="closePurchase" class="dialog-close" type="button" aria-label="关闭购买窗口">×</button>
+        <div class="purchase-media"><img id="productImage" src="assets/flavors.jpg" alt="星火月饼产品图" /><span>星火 / SHOP</span></div>
+        <div class="purchase-info"><p class="kicker">MID-AUTUMN GIFT / 2026</p><h2 id="productName">蛋黄白莲</h2><p id="productSubtitle" class="purchase-subtitle">经典 · 圆满 · 家的味道</p><p id="productDescription" class="purchase-description">咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。</p><div class="purchase-spec"><span>规格</span><strong>6枚精装礼盒</strong></div><div class="purchase-option"><span>数量</span><div class="quantity-control"><button type="button" data-qty="minus" aria-label="减少数量">−</button><input id="productQuantity" type="number" min="1" max="9" value="1" aria-label="购买数量" /><button type="button" data-qty="plus" aria-label="增加数量">＋</button></div></div><div class="purchase-total"><span>合计</span><strong id="productTotal">¥198</strong></div><button id="buyButton" class="button button-primary purchase-submit" type="button">确认购买 <span>↗</span></button><p class="purchase-note">展示版购买入口，点击后模拟加入购买清单。</p></div>
+      </section>
+    </div>
 
     <footer class="site-footer"><div><span class="brand-mark">星</span><strong>星火</strong></div><p>把月光装进礼盒 · 星火 Mid-Autumn Gift</p><span>© 2026 星火</span></footer>
     <script src="script.js"></script>

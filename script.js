@@ -6,6 +6,15 @@ const recipients = {
   self: { title: '给自己的犒赏', flavors: '抹茶柚子 · 紫薯乳酪', message: '辛苦了，今年也值得被好好款待。' }
 };
 
+const products = {
+  egg: { name: '蛋黄白莲', subtitle: '经典 · 圆满 · 家的味道', description: '咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。', image: 'assets/flavors.jpg', price: 198 },
+  tea: { name: '桂花乌龙', subtitle: '清香 · 东方 · 温柔', description: '桂花的轻盈香气落进乌龙茶韵，适合在月下慢慢分享。', image: 'assets/flavors.jpg', price: 198 },
+  custard: { name: '流心奶黄', subtitle: '浓郁 · 细腻 · 惊喜', description: '切开即见金色流心，奶香丰盈，把惊喜留给最想见的人。', image: 'assets/cutaway.jpg', price: 218 },
+  sesame: { name: '黑芝麻', subtitle: '醇厚 · 沉稳 · 回甘', description: '黑芝麻的醇厚香气与细腻口感，适合一盏茶旁的安静时刻。', image: 'assets/flavors.jpg', price: 198 },
+  matcha: { name: '抹茶柚子', subtitle: '清新 · 明亮 · 年轻', description: '抹茶的清苦遇见柚子的明亮，给中秋添一口轻盈的新鲜感。', image: 'assets/flavors.jpg', price: 198 },
+  purple: { name: '紫薯乳酪', subtitle: '柔软 · 特别 · 甜蜜', description: '紫薯的柔软与乳酪的甜润交织，适合送给喜欢特别风味的那个人。', image: 'assets/flavors.jpg', price: 198 }
+};
+
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -18,6 +27,64 @@ $$('.recipient').forEach((button) => {
     $('#recommendCopy').textContent = data.flavors;
     $('#recommendMessage').textContent = data.message;
   });
+});
+
+const purchaseModal = $('#purchaseModal');
+const productImage = $('#productImage');
+const productName = $('#productName');
+const productSubtitle = $('#productSubtitle');
+const productDescription = $('#productDescription');
+const productQuantity = $('#productQuantity');
+const productTotal = $('#productTotal');
+const buyButton = $('#buyButton');
+let selectedProduct = products.egg;
+
+const updateTotal = () => {
+  const quantity = Math.min(9, Math.max(1, Number(productQuantity.value) || 1));
+  productQuantity.value = quantity;
+  productTotal.textContent = `¥${selectedProduct.price * quantity}`;
+};
+
+const openPurchase = (key) => {
+  selectedProduct = products[key] || products.egg;
+  productImage.src = selectedProduct.image;
+  productImage.alt = `星火${selectedProduct.name}月饼产品图`;
+  productName.textContent = selectedProduct.name;
+  productSubtitle.textContent = selectedProduct.subtitle;
+  productDescription.textContent = selectedProduct.description;
+  productQuantity.value = 1;
+  buyButton.innerHTML = '确认购买 <span>↗</span>';
+  updateTotal();
+  purchaseModal.hidden = false;
+  document.body.classList.add('modal-open');
+  requestAnimationFrame(() => purchaseModal.classList.add('is-open'));
+};
+
+const closePurchase = () => {
+  purchaseModal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  window.setTimeout(() => { purchaseModal.hidden = true; }, 220);
+};
+
+$$('.flavor-card').forEach((card) => {
+  const activate = () => openPurchase(card.dataset.flavor);
+  card.addEventListener('click', activate);
+  card.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
+  });
+});
+$('#closePurchase').addEventListener('click', closePurchase);
+$('.purchase-backdrop').addEventListener('click', closePurchase);
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !purchaseModal.hidden) closePurchase(); });
+$$('[data-qty]').forEach((button) => {
+  button.addEventListener('click', () => {
+    productQuantity.value = Number(productQuantity.value || 1) + (button.dataset.qty === 'plus' ? 1 : -1);
+    updateTotal();
+  });
+});
+productQuantity.addEventListener('input', updateTotal);
+buyButton.addEventListener('click', () => {
+  buyButton.innerHTML = '已加入购买清单 ✓';
 });
 
 const audio = $('#themeAudio');
