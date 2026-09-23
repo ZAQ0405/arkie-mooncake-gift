@@ -44,6 +44,8 @@ const buyButton = $('#buyButton');
 const productKeys = Object.keys(products);
 let selectedProduct = products.egg;
 let selectedProductKey = 'egg';
+let lastPurchaseFocus = null;
+let lastGalleryFocus = null;
 
 const updateTotal = () => {
   const quantity = Math.min(9, Math.max(1, Number(productQuantity.value) || 1));
@@ -52,6 +54,7 @@ const updateTotal = () => {
 };
 
 const openPurchase = (key) => {
+  lastPurchaseFocus = document.activeElement;
   selectedProductKey = products[key] ? key : 'egg';
   selectedProduct = products[selectedProductKey];
   productImage.src = selectedProduct.image;
@@ -68,7 +71,7 @@ const openPurchase = (key) => {
   updateTotal();
   purchaseModal.hidden = false;
   document.body.classList.add('modal-open');
-  requestAnimationFrame(() => purchaseModal.classList.add('is-open'));
+  requestAnimationFrame(() => { purchaseModal.classList.add('is-open'); $('#closePurchase').focus(); });
 };
 
 const stepProduct = (direction) => {
@@ -80,7 +83,7 @@ const stepProduct = (direction) => {
 const closePurchase = () => {
   purchaseModal.classList.remove('is-open');
   document.body.classList.remove('modal-open');
-  window.setTimeout(() => { purchaseModal.hidden = true; }, 220);
+  window.setTimeout(() => { purchaseModal.hidden = true; lastPurchaseFocus?.focus?.(); }, 220);
 };
 
 $$('.flavor-card').forEach((card) => {
@@ -124,14 +127,15 @@ const showGallery = (index) => {
 const closeGallery = () => {
   galleryLightbox.classList.remove('is-open');
   document.body.classList.remove('modal-open');
-  window.setTimeout(() => { galleryLightbox.hidden = true; }, 220);
+  window.setTimeout(() => { galleryLightbox.hidden = true; lastGalleryFocus?.focus?.(); }, 220);
 };
 galleryTiles.forEach((tile, index) => {
   tile.addEventListener('click', () => {
+    lastGalleryFocus = document.activeElement;
     showGallery(index);
     galleryLightbox.hidden = false;
     document.body.classList.add('modal-open');
-    requestAnimationFrame(() => galleryLightbox.classList.add('is-open'));
+    requestAnimationFrame(() => { galleryLightbox.classList.add('is-open'); $('#closeGallery').focus(); });
   });
 });
 $('#closeGallery').addEventListener('click', closeGallery);
@@ -215,10 +219,16 @@ copyCard.addEventListener('click', async () => {
   } catch { blessingStatus.textContent = '当前浏览器不支持自动复制，请手动选择文字。'; }
 });
 downloadCard.addEventListener('click', () => {
-  const safeText = currentBlessing.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700"><rect width="1200" height="700" fill="#071525"/><circle cx="950" cy="160" r="210" fill="#d9b66b" fill-opacity=".18"/><text x="90" y="115" fill="#d9b66b" font-size="24" letter-spacing="8">ARKIE · MID-AUTUMN</text><text x="90" y="290" fill="#f5eedf" font-size="70" font-family="serif">把月光装进礼盒</text><text x="90" y="390" fill="#d9b66b" font-size="34" font-family="serif">${safeText}</text><text x="90" y="610" fill="#8b9da4" font-size="20">Arkie星火月饼专营店 · 展示版祝福卡</text></svg>`;
-  const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-  const link = document.createElement('a'); link.href = url; link.download = 'arkie-starfire-blessing.svg'; link.click(); URL.revokeObjectURL(url);
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200; canvas.height = 700;
+  const context = canvas.getContext('2d');
+  context.fillStyle = '#071525'; context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = 'rgba(217,182,107,.18)'; context.beginPath(); context.arc(950, 160, 210, 0, Math.PI * 2); context.fill();
+  context.fillStyle = '#d9b66b'; context.font = '24px sans-serif'; context.fillText('ARKIE · MID-AUTUMN', 90, 115);
+  context.fillStyle = '#f5eedf'; context.font = '70px serif'; context.fillText('把月光装进礼盒', 90, 290);
+  context.fillStyle = '#d9b66b'; context.font = '34px serif'; context.fillText(currentBlessing.slice(0, 48), 90, 390);
+  context.fillStyle = '#8b9da4'; context.font = '20px sans-serif'; context.fillText('Arkie星火月饼专营店 · 展示版祝福卡', 90, 610);
+  const link = document.createElement('a'); link.href = canvas.toDataURL('image/png'); link.download = 'arkie-starfire-blessing.png'; link.click();
   showToast('祝福卡已下载');
 });
 resetCard.addEventListener('click', () => {
@@ -256,6 +266,39 @@ const updateBackToTop = () => backToTop.classList.toggle('is-visible', window.sc
 backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 window.addEventListener('scroll', updateBackToTop, { passive: true });
 updateBackToTop();
+
+const scrollProgress = $('#scrollProgress span');
+const updateScrollProgress = () => {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+};
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+updateScrollProgress();
+
+const navLinks = $$('.main-nav a');
+const navSections = navLinks.map((link) => ({ link, section: $(link.getAttribute('href')) })).filter((item) => item.section);
+const navObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+  if (!entry.isIntersecting) return;
+  navSections.forEach(({ link, section }) => {
+    const active = section === entry.target;
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+  });
+}), { rootMargin: '-26% 0px -62% 0px', threshold: 0 });
+navSections.forEach(({ section }) => navObserver.observe(section));
+
+const trapFocus = (container, event) => {
+  if (event.key !== 'Tab') return;
+  const focusable = $$('button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled])', container).filter((item) => !item.hidden);
+  if (!focusable.length) return;
+  const first = focusable[0]; const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+  if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+};
+document.addEventListener('keydown', (event) => {
+  if (!purchaseModal.hidden) trapFocus(purchaseModal, event);
+  if (!galleryLightbox.hidden) trapFocus(galleryLightbox, event);
+});
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) entry.target.classList.add('is-visible');
