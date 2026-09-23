@@ -103,3 +103,17 @@ body.modal-open{overflow:hidden}.purchase-modal[hidden]{display:none}.purchase-m
 /* 正式 Logo 与移动端图廊触控适配 */
 .brand-logo{display:block;width:32px;height:32px;flex:0 0 auto;object-fit:contain}.brand-lockup .brand-logo{grid-row:span 2;width:52px;height:52px}.footer-brand .brand-logo{width:38px;height:38px;margin-bottom:3px}.gallery-dialog img{touch-action:pan-y}.gallery-nav{touch-action:manipulation}
 @media(min-width:851px) and (max-width:1180px){.main-nav{gap:clamp(9px,1.5vw,20px);font-size:10px}.brand-name{font-size:12px}.nav-cta{font-size:10px}}
+
+/* 展示叙事顺序：品牌认知 → AI创作 → 产品 → 场景 → 媒体 → 祝福 → 收束 */
+main#top{display:flex;flex-direction:column}
+main#top>#story{order:1}
+main#top>#about{order:2}
+main#top>#studio{order:3}
+main#top>#flavors{order:4}
+main#top>#details{order:5}
+main#top>#guide{order:6}
+main#top>#ritual{order:7}
+main#top>#sound{order:8}
+main#top>#greeting{order:9}
+main#top>#blessing{order:10}
+main#top>#final-cta{order:11}
