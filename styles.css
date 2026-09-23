@@ -64,3 +64,7 @@ body.modal-open{overflow:hidden}.purchase-modal[hidden]{display:none}.purchase-m
 .flavor-visual.sesame{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-04-black.png")}
 .flavor-visual.matcha{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-05-green.png")}
 .flavor-visual.purple{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-06-purple.png")}
+
+/* 长店名在导航栏中保持紧凑、清晰，并适配窄屏 */
+.brand-name{font-size:clamp(11px,1.05vw,14px);letter-spacing:.08em;white-space:nowrap}
+@media(max-width:700px){.brand-name{font-size:11px;letter-spacing:.03em}}

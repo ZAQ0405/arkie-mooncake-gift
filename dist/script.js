@@ -48,7 +48,7 @@ const updateTotal = () => {
 const openPurchase = (key) => {
   selectedProduct = products[key] || products.egg;
   productImage.src = selectedProduct.image;
-  productImage.alt = `星火${selectedProduct.name}月饼产品图`;
+  productImage.alt = `Arkie星火${selectedProduct.name}月饼产品图`;
   productName.textContent = selectedProduct.name;
   productSubtitle.textContent = selectedProduct.subtitle;
   productDescription.textContent = selectedProduct.description;
@@ -116,7 +116,7 @@ blessingInput.addEventListener('input', () => { charCount.textContent = `${bless
 $('#makeCard').addEventListener('click', () => {
   const text = blessingInput.value.trim() || '愿我们抬头时，都看见同一轮月亮。';
   preview.classList.add('is-made');
-  preview.innerHTML = `<span>星火 · MID-AUTUMN</span><strong>把月光装进礼盒</strong><em>${text.replace(/[<>]/g, '')}</em>`;
+  preview.innerHTML = `<span>Arkie星火 · MID-AUTUMN</span><strong>把月光装进礼盒</strong><em>${text.replace(/[<>]/g, '')}</em>`;
 });
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
