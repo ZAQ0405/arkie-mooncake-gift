@@ -116,6 +116,7 @@ const galleryCaption = $('#galleryCaption');
 const galleryCounter = $('#galleryCounter');
 const galleryTiles = $$('[data-gallery-image]');
 let galleryIndex = 0;
+let galleryTouchStartX = 0;
 const showGallery = (index) => {
   galleryIndex = (index + galleryTiles.length) % galleryTiles.length;
   const tile = galleryTiles[galleryIndex];
@@ -142,6 +143,11 @@ $('#closeGallery').addEventListener('click', closeGallery);
 $('.gallery-backdrop').addEventListener('click', closeGallery);
 $('#prevGallery').addEventListener('click', () => showGallery(galleryIndex - 1));
 $('#nextGallery').addEventListener('click', () => showGallery(galleryIndex + 1));
+galleryLightbox.addEventListener('touchstart', (event) => { galleryTouchStartX = event.changedTouches[0].clientX; }, { passive: true });
+galleryLightbox.addEventListener('touchend', (event) => {
+  const distance = event.changedTouches[0].clientX - galleryTouchStartX;
+  if (Math.abs(distance) > 45) showGallery(galleryIndex + (distance < 0 ? 1 : -1));
+}, { passive: true });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !galleryLightbox.hidden) closeGallery(); });
 document.addEventListener('keydown', (event) => { if (!galleryLightbox.hidden && event.key === 'ArrowLeft') showGallery(galleryIndex - 1); if (!galleryLightbox.hidden && event.key === 'ArrowRight') showGallery(galleryIndex + 1); });
 

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Arkie星火 Logo</title>
+  <desc id="desc">深夜蓝圆章中的金色月牙与星火</desc>
+  <circle cx="48" cy="48" r="43" fill="#071525" stroke="#d9b66b" stroke-width="2"/>
+  <path d="M64 18c-15 5-25 17-25 31s10 27 25 30c-22 0-37-13-37-30S42 18 64 18Z" fill="#d9b66b"/>
+  <path d="M57 27l1.7 4.8L64 33.5l-5.3 1.7L57 40l-1.7-4.8-5.3-1.7 5.3-1.7L57 27Z" fill="#f5eedf"/>
+  <text x="48" y="68" text-anchor="middle" fill="#f5eedf" font-family="Noto Serif SC, Songti SC, serif" font-size="23">星</text>
+</svg>
