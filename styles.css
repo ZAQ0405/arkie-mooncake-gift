@@ -41,6 +41,11 @@ body.modal-open{overflow:hidden}.purchase-modal[hidden]{display:none}.purchase-m
 .video-frame video{width:auto;max-width:100%;height:min(76vh,760px);max-height:none;aspect-ratio:362 / 540;object-fit:contain;margin:0 auto}
 @media(max-width:520px){.video-frame{padding:8px}.video-frame video{height:min(72vh,620px);width:auto;max-width:100%}}
 
+/* 竖幅视频使用同尺寸容器，完整画面不留左右黑边 */
+.video-frame{display:block;width:min(100%,500px);margin-inline:auto;padding:0;background:#02070c}
+.video-frame video{display:block;width:100%;height:auto;max-width:none;max-height:none;aspect-ratio:362 / 540;object-fit:contain;margin:0}
+.video-frame .video-corner{top:14px;right:14px}
+
 /* 六种独立商品图与六个口味卡一一对应 */
 .flavor-visual.cream,.flavor-visual.tea,.flavor-visual.custard,.flavor-visual.sesame,.flavor-visual.matcha,.flavor-visual.purple{background-size:cover;background-position:center 50%}
 .flavor-visual.cream{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-01-white.png")}
