@@ -49,6 +49,9 @@ body.modal-open{overflow:hidden}.purchase-modal[hidden]{display:none}.purchase-m
 /* 开盒仪式：标题、说明与竖幅影片组成一个居中的舞台 */
 .ritual-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:34px}.ritual-head>div{display:flex;flex-direction:column;align-items:center}.ritual-head .kicker{margin-bottom:12px}.ritual-head>p{max-width:420px;text-align:center;margin:0}.video-frame{width:min(100%,430px);margin-inline:auto}
 
+.ritual-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,430px);gap:clamp(42px,8vw,120px);align-items:center;margin-bottom:76px;padding:clamp(32px,5vw,64px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ritual-copy{padding-left:clamp(0px,3vw,46px)}.ritual-copy h2{font-size:clamp(50px,6vw,88px);letter-spacing:-.05em;margin:0 0 28px}.ritual-copy h2 span{color:var(--gold2)}.ritual-copy>p:not(.kicker){max-width:390px;color:var(--muted);font-size:16px;line-height:1.9;margin:0}.ritual-mark{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:42px;padding-top:15px;border-top:1px solid rgba(220,203,160,.16);color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.13em}.ritual-stage .video-frame{width:100%;margin:0}.ritual-stage .video-frame video{width:100%}
+@media(max-width:850px){.ritual-stage{grid-template-columns:1fr;gap:38px}.ritual-copy{padding-left:0}.ritual-stage .video-frame{width:min(100%,430px);margin-inline:auto}}
+
 /* 六种独立商品图与六个口味卡一一对应 */
 .flavor-visual.cream,.flavor-visual.tea,.flavor-visual.custard,.flavor-visual.sesame,.flavor-visual.matcha,.flavor-visual.purple{background-size:cover;background-position:center 50%}
 .flavor-visual.cream{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-01-white.png")}
