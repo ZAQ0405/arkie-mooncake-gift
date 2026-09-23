@@ -7,12 +7,12 @@ const recipients = {
 };
 
 const products = {
-  egg: { name: '蛋黄白莲', subtitle: '经典 · 圆满 · 家的味道', description: '咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。', image: 'assets/moon-01-white.png', price: 198 },
-  tea: { name: '桂花乌龙', subtitle: '清香 · 东方 · 温柔', description: '桂花的轻盈香气落进乌龙茶韵，适合在月下慢慢分享。', image: 'assets/moon-02-beige.png', price: 198 },
-  custard: { name: '流心奶黄', subtitle: '浓郁 · 细腻 · 惊喜', description: '切开即见金色流心，奶香丰盈，把惊喜留给最想见的人。', image: 'assets/moon-03-golden.png', price: 218 },
-  sesame: { name: '黑芝麻', subtitle: '醇厚 · 沉稳 · 回甘', description: '黑芝麻的醇厚香气与细腻口感，适合一盏茶旁的安静时刻。', image: 'assets/moon-04-black.png', price: 198 },
-  matcha: { name: '抹茶柚子', subtitle: '清新 · 明亮 · 年轻', description: '抹茶的清苦遇见柚子的明亮，给中秋添一口轻盈的新鲜感。', image: 'assets/moon-05-green.png', price: 198 },
-  purple: { name: '紫薯乳酪', subtitle: '柔软 · 特别 · 甜蜜', description: '紫薯的柔软与乳酪的甜润交织，适合送给喜欢特别风味的那个人。', image: 'assets/moon-06-purple.png', price: 198 }
+  egg: { name: '蛋黄白莲', subtitle: '经典 · 圆满 · 家的味道', description: '咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。', image: 'assets/moon-01-white.png', price: 198, tags: ['经典风味', '咸甜平衡'], taste: '绵密咸香', pairing: '热茶分享' },
+  tea: { name: '桂花乌龙', subtitle: '清香 · 东方 · 温柔', description: '桂花的轻盈香气落进乌龙茶韵，适合在月下慢慢分享。', image: 'assets/moon-02-beige.png', price: 198, tags: ['茶香馅心', '清甜轻盈'], taste: '柔和清香', pairing: '乌龙茶' },
+  custard: { name: '流心奶黄', subtitle: '浓郁 · 细腻 · 惊喜', description: '切开即见金色流心，奶香丰盈，把惊喜留给最想见的人。', image: 'assets/moon-03-golden.png', price: 218, tags: ['金色流心', '奶香浓郁'], taste: '顺滑流心', pairing: '冷泡茶' },
+  sesame: { name: '黑芝麻', subtitle: '醇厚 · 沉稳 · 回甘', description: '黑芝麻的醇厚香气与细腻口感，适合一盏茶旁的安静时刻。', image: 'assets/moon-04-black.png', price: 198, tags: ['芝麻香气', '低调醇厚'], taste: '醇厚回甘', pairing: '普洱茶' },
+  matcha: { name: '抹茶柚子', subtitle: '清新 · 明亮 · 年轻', description: '抹茶的清苦遇见柚子的明亮，给中秋添一口轻盈的新鲜感。', image: 'assets/moon-05-green.png', price: 198, tags: ['抹茶清苦', '柚香明亮'], taste: '清新微苦', pairing: '桂花茶' },
+  purple: { name: '紫薯乳酪', subtitle: '柔软 · 特别 · 甜蜜', description: '紫薯的柔软与乳酪的甜润交织，适合送给喜欢特别风味的那个人。', image: 'assets/moon-06-purple.png', price: 198, tags: ['乳酪馅心', '特别甜润'], taste: '柔软甜润', pairing: '花果茶' }
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -34,10 +34,16 @@ const productImage = $('#productImage');
 const productName = $('#productName');
 const productSubtitle = $('#productSubtitle');
 const productDescription = $('#productDescription');
+const productTags = $('#productTags');
+const productTaste = $('#productTaste');
+const productPairing = $('#productPairing');
+const productIndex = $('#productIndex');
 const productQuantity = $('#productQuantity');
 const productTotal = $('#productTotal');
 const buyButton = $('#buyButton');
+const productKeys = Object.keys(products);
 let selectedProduct = products.egg;
+let selectedProductKey = 'egg';
 
 const updateTotal = () => {
   const quantity = Math.min(9, Math.max(1, Number(productQuantity.value) || 1));
@@ -46,11 +52,16 @@ const updateTotal = () => {
 };
 
 const openPurchase = (key) => {
-  selectedProduct = products[key] || products.egg;
+  selectedProductKey = products[key] ? key : 'egg';
+  selectedProduct = products[selectedProductKey];
   productImage.src = selectedProduct.image;
   productImage.alt = `Arkie星火${selectedProduct.name}月饼产品图`;
   productName.textContent = selectedProduct.name;
   productSubtitle.textContent = selectedProduct.subtitle;
+  productTags.innerHTML = selectedProduct.tags.map((tag) => `<span>${tag}</span>`).join('');
+  productTaste.textContent = selectedProduct.taste;
+  productPairing.textContent = selectedProduct.pairing;
+  productIndex.textContent = `${String(productKeys.indexOf(selectedProductKey) + 1).padStart(2, '0')} / ${String(productKeys.length).padStart(2, '0')}`;
   productDescription.textContent = selectedProduct.description;
   productQuantity.value = 1;
   buyButton.innerHTML = '查看礼盒方案 <span>↗</span>';
@@ -58,6 +69,12 @@ const openPurchase = (key) => {
   purchaseModal.hidden = false;
   document.body.classList.add('modal-open');
   requestAnimationFrame(() => purchaseModal.classList.add('is-open'));
+};
+
+const stepProduct = (direction) => {
+  const currentIndex = productKeys.indexOf(selectedProductKey);
+  const nextIndex = (currentIndex + direction + productKeys.length) % productKeys.length;
+  openPurchase(productKeys[nextIndex]);
 };
 
 const closePurchase = () => {
@@ -75,7 +92,10 @@ $$('.flavor-card').forEach((card) => {
 });
 $('#closePurchase').addEventListener('click', closePurchase);
 $('.purchase-backdrop').addEventListener('click', closePurchase);
+$('#prevProduct').addEventListener('click', () => stepProduct(-1));
+$('#nextProduct').addEventListener('click', () => stepProduct(1));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !purchaseModal.hidden) closePurchase(); });
+document.addEventListener('keydown', (event) => { if (!purchaseModal.hidden && event.key === 'ArrowLeft') stepProduct(-1); if (!purchaseModal.hidden && event.key === 'ArrowRight') stepProduct(1); });
 $$('[data-qty]').forEach((button) => {
   button.addEventListener('click', () => {
     productQuantity.value = Number(productQuantity.value || 1) + (button.dataset.qty === 'plus' ? 1 : -1);
@@ -90,16 +110,25 @@ buyButton.addEventListener('click', () => {
 const galleryLightbox = $('#galleryLightbox');
 const galleryImage = $('#galleryImage');
 const galleryCaption = $('#galleryCaption');
+const galleryCounter = $('#galleryCounter');
+const galleryTiles = $$('[data-gallery-image]');
+let galleryIndex = 0;
+const showGallery = (index) => {
+  galleryIndex = (index + galleryTiles.length) % galleryTiles.length;
+  const tile = galleryTiles[galleryIndex];
+  galleryImage.src = tile.dataset.galleryImage;
+  galleryCaption.textContent = tile.dataset.galleryCaption;
+  galleryImage.alt = tile.querySelector('img')?.alt || 'Arkie星火礼盒展示图';
+  galleryCounter.textContent = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(galleryTiles.length).padStart(2, '0')}`;
+};
 const closeGallery = () => {
   galleryLightbox.classList.remove('is-open');
   document.body.classList.remove('modal-open');
   window.setTimeout(() => { galleryLightbox.hidden = true; }, 220);
 };
-$$('[data-gallery-image]').forEach((tile) => {
+galleryTiles.forEach((tile, index) => {
   tile.addEventListener('click', () => {
-    galleryImage.src = tile.dataset.galleryImage;
-    galleryCaption.textContent = tile.dataset.galleryCaption;
-    galleryImage.alt = tile.querySelector('img')?.alt || 'Arkie星火礼盒展示图';
+    showGallery(index);
     galleryLightbox.hidden = false;
     document.body.classList.add('modal-open');
     requestAnimationFrame(() => galleryLightbox.classList.add('is-open'));
@@ -107,18 +136,40 @@ $$('[data-gallery-image]').forEach((tile) => {
 });
 $('#closeGallery').addEventListener('click', closeGallery);
 $('.gallery-backdrop').addEventListener('click', closeGallery);
+$('#prevGallery').addEventListener('click', () => showGallery(galleryIndex - 1));
+$('#nextGallery').addEventListener('click', () => showGallery(galleryIndex + 1));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !galleryLightbox.hidden) closeGallery(); });
+document.addEventListener('keydown', (event) => { if (!galleryLightbox.hidden && event.key === 'ArrowLeft') showGallery(galleryIndex - 1); if (!galleryLightbox.hidden && event.key === 'ArrowRight') showGallery(galleryIndex + 1); });
+
+const siteToast = $('#siteToast');
+let toastTimer;
+const showToast = (message) => {
+  siteToast.textContent = message;
+  siteToast.classList.add('is-visible');
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => siteToast.classList.remove('is-visible'), 2200);
+};
 
 const audio = $('#themeAudio');
 const audioToggle = $('#audioToggle');
 const audioLabel = $('#audioLabel');
 const playIcon = $('.play-icon');
+const audioTime = $('#audioTime');
+const audioProgress = $('#audioProgress');
+const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+const updateAudioProgress = () => {
+  const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+  audioProgress.value = duration ? (audio.currentTime / duration) * 100 : 0;
+  audioTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
+};
 audioToggle.addEventListener('click', async () => {
   if (audio.paused) {
-    await audio.play();
-    audioLabel.textContent = '暂停主题音乐';
-    playIcon.textContent = 'Ⅱ';
-    audioToggle.setAttribute('aria-label', '暂停品牌音乐');
+    try {
+      await audio.play();
+      audioLabel.textContent = '暂停主题音乐';
+      playIcon.textContent = 'Ⅱ';
+      audioToggle.setAttribute('aria-label', '暂停品牌音乐');
+    } catch { showToast('音乐暂时无法播放，请检查浏览器权限'); }
   } else {
     audio.pause();
     audioLabel.textContent = '播放主题音乐';
@@ -126,20 +177,85 @@ audioToggle.addEventListener('click', async () => {
     audioToggle.setAttribute('aria-label', '播放品牌音乐');
   }
 });
+audioProgress.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(audioProgress.value) / 100) * audio.duration; });
+audio.addEventListener('loadedmetadata', updateAudioProgress);
+audio.addEventListener('timeupdate', updateAudioProgress);
+audio.addEventListener('error', () => showToast('主题音乐暂时无法加载'));
 audio.addEventListener('ended', () => {
   audioLabel.textContent = '播放主题音乐';
   playIcon.textContent = '▶';
+  updateAudioProgress();
 });
 
 const blessingInput = $('#blessingInput');
 const charCount = $('#charCount');
 const preview = $('#blessingPreview');
+const blessingStatus = $('#blessingStatus');
+const copyCard = $('#copyCard');
+const downloadCard = $('#downloadCard');
+const resetCard = $('#resetCard');
+let currentBlessing = '';
 blessingInput.addEventListener('input', () => { charCount.textContent = `${blessingInput.value.length} / 48`; });
 $('#makeCard').addEventListener('click', () => {
   const text = blessingInput.value.trim() || '愿我们抬头时，都看见同一轮月亮。';
+  currentBlessing = text.replace(/[<>]/g, '');
   preview.classList.add('is-made');
-  preview.innerHTML = `<span>Arkie星火 · MID-AUTUMN</span><strong>把月光装进礼盒</strong><em>${text.replace(/[<>]/g, '')}</em>`;
+  preview.innerHTML = `<span>Arkie星火 · MID-AUTUMN</span><strong>把月光装进礼盒</strong><em>${currentBlessing}</em>`;
+  copyCard.disabled = false;
+  downloadCard.disabled = false;
+  blessingStatus.textContent = '祝福卡已生成，可复制或下载展示。';
+  showToast('祝福卡已生成');
 });
+copyCard.addEventListener('click', async () => {
+  const text = `Arkie星火 · 把月光装进礼盒\n${currentBlessing}`;
+  try {
+    await navigator.clipboard.writeText(text);
+    blessingStatus.textContent = '祝福文字已复制。';
+    showToast('祝福文字已复制');
+  } catch { blessingStatus.textContent = '当前浏览器不支持自动复制，请手动选择文字。'; }
+});
+downloadCard.addEventListener('click', () => {
+  const safeText = currentBlessing.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700"><rect width="1200" height="700" fill="#071525"/><circle cx="950" cy="160" r="210" fill="#d9b66b" fill-opacity=".18"/><text x="90" y="115" fill="#d9b66b" font-size="24" letter-spacing="8">ARKIE · MID-AUTUMN</text><text x="90" y="290" fill="#f5eedf" font-size="70" font-family="serif">把月光装进礼盒</text><text x="90" y="390" fill="#d9b66b" font-size="34" font-family="serif">${safeText}</text><text x="90" y="610" fill="#8b9da4" font-size="20">Arkie星火月饼专营店 · 展示版祝福卡</text></svg>`;
+  const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  const link = document.createElement('a'); link.href = url; link.download = 'arkie-starfire-blessing.svg'; link.click(); URL.revokeObjectURL(url);
+  showToast('祝福卡已下载');
+});
+resetCard.addEventListener('click', () => {
+  blessingInput.value = '';
+  charCount.textContent = '0 / 48';
+  currentBlessing = '';
+  preview.classList.remove('is-made');
+  preview.innerHTML = '<span>Arkie星火</span><strong>把月光装进礼盒</strong><em>写下你的祝福，它会出现在这里。</em>';
+  copyCard.disabled = true;
+  downloadCard.disabled = true;
+  blessingStatus.textContent = '已重置祝福卡。';
+});
+
+const menuToggle = $('#menuToggle');
+const mainNav = $('.main-nav');
+const closeMenu = () => { mainNav.classList.remove('is-open'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', '打开导航菜单'); };
+menuToggle.addEventListener('click', () => {
+  const isOpen = mainNav.classList.toggle('is-open');
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+  menuToggle.setAttribute('aria-label', isOpen ? '关闭导航菜单' : '打开导航菜单');
+});
+$$('.main-nav a').forEach((link) => link.addEventListener('click', closeMenu));
+document.addEventListener('click', (event) => { if (mainNav.classList.contains('is-open') && !mainNav.contains(event.target) && event.target !== menuToggle) closeMenu(); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(); });
+
+$$('video').forEach((video) => {
+  video.addEventListener('error', () => {
+    const fallback = video.parentElement.querySelector('.video-fallback');
+    if (fallback) fallback.hidden = false;
+  });
+});
+
+const backToTop = $('#backToTop');
+const updateBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 620);
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+window.addEventListener('scroll', updateBackToTop, { passive: true });
+updateBackToTop();
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) entry.target.classList.add('is-visible');
