@@ -46,6 +46,7 @@ let selectedProduct = products.egg;
 let selectedProductKey = 'egg';
 let lastPurchaseFocus = null;
 let lastGalleryFocus = null;
+let lastStudioFocus = null;
 
 const updateTotal = () => {
   const quantity = Math.min(9, Math.max(1, Number(productQuantity.value) || 1));
@@ -260,6 +261,23 @@ $$('.main-nav a').forEach((link) => link.addEventListener('click', closeMenu));
 document.addEventListener('click', (event) => { if (mainNav.classList.contains('is-open') && !mainNav.contains(event.target) && event.target !== menuToggle) closeMenu(); });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(); });
 
+const studioModal = $('#studioModal');
+const openStudio = () => {
+  lastStudioFocus = document.activeElement;
+  studioModal.hidden = false;
+  document.body.classList.add('modal-open');
+  requestAnimationFrame(() => { studioModal.classList.add('is-open'); $('#closeStudio').focus(); });
+};
+const closeStudio = () => {
+  studioModal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  window.setTimeout(() => { studioModal.hidden = true; lastStudioFocus?.focus?.(); }, 220);
+};
+$('#studioOpen').addEventListener('click', openStudio);
+$('#closeStudio').addEventListener('click', closeStudio);
+$('.studio-modal-backdrop').addEventListener('click', closeStudio);
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !studioModal.hidden) closeStudio(); });
+
 $$('video').forEach((video) => {
   video.addEventListener('error', () => {
     const fallback = video.parentElement.querySelector('.video-fallback');
@@ -304,6 +322,7 @@ const trapFocus = (container, event) => {
 document.addEventListener('keydown', (event) => {
   if (!purchaseModal.hidden) trapFocus(purchaseModal, event);
   if (!galleryLightbox.hidden) trapFocus(galleryLightbox, event);
+  if (!studioModal.hidden) trapFocus(studioModal, event);
 });
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {

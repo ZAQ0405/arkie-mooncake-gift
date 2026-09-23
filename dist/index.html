@@ -28,7 +28,6 @@
         <a href="#guide">送礼指南</a>
         <a href="#ritual">开盒仪式</a>
         <a href="#sound">品牌音乐</a>
-        <a href="#studio">AI创作</a>
       </nav>
       <a class="nav-cta" href="#blessing">送出心意 <span>↗</span></a>
       <button id="menuToggle" class="menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -198,6 +197,15 @@
       </section>
     </main>
 
+    <div id="studioModal" class="studio-modal" hidden>
+      <div class="studio-modal-backdrop" data-studio-close="true"></div>
+      <section class="studio-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="studioModalTitle">
+        <button id="closeStudio" class="dialog-close" type="button" aria-label="关闭创作幕后">×</button>
+        <p class="kicker">BEHIND THE PROJECT</p><h2 id="studioModalTitle">创作幕后</h2><p class="studio-modal-lede">Arkie星火中秋礼盒是一个完整的 AI 品牌创作展示项目。AI 参与了视觉、动态、音乐与网页体验的生成。</p>
+        <div class="studio-modal-grid"><div><span>01</span><strong>AI 图片</strong><small>礼盒主视觉、月饼切面与场景素材</small></div><div><span>02</span><strong>AI 视频</strong><small>开盒宣传片与全体成员祝福片</small></div><div><span>03</span><strong>AI 音乐</strong><small>中秋主题曲的风格与歌词创作</small></div><div><span>04</span><strong>网页设计</strong><small>将素材整理为完整的品牌展示体验</small></div></div><p class="studio-modal-note">这是项目说明，不属于产品售卖信息。</p>
+      </section>
+    </div>
+
     <div id="galleryLightbox" class="gallery-lightbox" hidden>
       <div class="gallery-backdrop" data-gallery-close="true"></div>
       <figure class="gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="galleryCaption">
@@ -219,7 +227,7 @@
       </section>
     </div>
 
-    <button id="backToTop" class="back-to-top" type="button" aria-label="返回顶部">↑</button><div id="siteToast" class="site-toast" role="status" aria-live="polite"></div><footer class="site-footer"><div class="footer-grid"><div class="footer-brand"><img class="brand-logo" src="assets/arkie-logo.svg" alt="" /><strong>Arkie星火月饼专营店</strong><p>把月光装进礼盒<br />Arkie星火 Mid-Autumn Gift</p></div><div><span class="footer-title">EXPLORE</span><a href="#story">礼盒故事</a><a href="#flavors">六味月相</a><a href="#details">礼盒详情</a><a href="#studio">AI创作档案</a></div><div><span class="footer-title">EXPERIENCE</span><a href="#guide">送礼指南</a><a href="#ritual">开盒仪式</a><a href="#blessing">祝福卡片</a></div><div class="footer-contact"><span class="footer-title">SHOWCASE ONLY</span><strong>这是一个展示版官网</strong><span>网站、图片、视频与音乐<br />均为前端演示交互</span></div></div><div class="footer-bottom"><span>© 2026 Arkie星火</span><span>中秋限定礼盒 · 仅用于作品展示</span><a href="#top">回到顶部 ↑</a></div></footer>
+    <button id="backToTop" class="back-to-top" type="button" aria-label="返回顶部">↑</button><div id="siteToast" class="site-toast" role="status" aria-live="polite"></div><footer class="site-footer"><div class="footer-grid"><div class="footer-brand"><img class="brand-logo" src="assets/arkie-logo.svg" alt="" /><strong>Arkie星火月饼专营店</strong><p>把月光装进礼盒<br />Arkie星火 Mid-Autumn Gift</p></div><div><span class="footer-title">EXPLORE</span><a href="#story">礼盒故事</a><a href="#flavors">六味月相</a><a href="#details">礼盒详情</a><button id="studioOpen" class="footer-link" type="button">创作幕后</button></div><div><span class="footer-title">EXPERIENCE</span><a href="#guide">送礼指南</a><a href="#ritual">开盒仪式</a><a href="#blessing">祝福卡片</a></div><div class="footer-contact"><span class="footer-title">SHOWCASE ONLY</span><strong>这是一个展示版官网</strong><span>网站、图片、视频与音乐<br />均为前端演示交互</span></div></div><div class="footer-bottom"><span>© 2026 Arkie星火</span><span>中秋限定礼盒 · 仅用于作品展示</span><a href="#top">回到顶部 ↑</a></div></footer>
     <script src="script.js"></script>
   </body>
 </html>
