@@ -36,6 +36,11 @@ body.modal-open{overflow:hidden}.purchase-modal[hidden]{display:none}.purchase-m
 .purchase-media{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;min-height:455px;padding:8px;background:#050e18}.purchase-media:after{display:none}.product-shot,.package-shot{position:relative;min-width:0;overflow:hidden;background:#081525}.purchase-media img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;filter:saturate(.9)}.package-shot img{object-position:center}.product-shot:after,.package-shot:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(2,8,15,.78))}.product-shot>span,.package-shot>span{position:absolute;z-index:1;left:16px;bottom:16px;color:var(--gold2);font-family:var(--mono);font-size:9px;line-height:1.65;letter-spacing:.13em}.package-shot>span{left:13px}.package-shot small{color:var(--ink);font-size:9px;letter-spacing:.05em}.purchase-media>span{display:none}
 @media(max-width:700px){.purchase-media{grid-template-columns:1.1fr .9fr;min-height:250px;height:250px;padding:6px}.purchase-media img{height:238px}.product-shot>span,.package-shot>span{left:10px;bottom:10px;font-size:8px}.package-shot small{font-size:8px}}
 
+/* 宣传片为竖幅 362:540，完整显示画面，不再裁切上下内容 */
+.video-frame{display:flex;justify-content:center;align-items:center;background:#02070c}
+.video-frame video{width:auto;max-width:100%;height:min(76vh,760px);max-height:none;aspect-ratio:362 / 540;object-fit:contain;margin:0 auto}
+@media(max-width:520px){.video-frame{padding:8px}.video-frame video{height:min(72vh,620px);width:auto;max-width:100%}}
+
 /* 六种独立商品图与六个口味卡一一对应 */
 .flavor-visual.cream,.flavor-visual.tea,.flavor-visual.custard,.flavor-visual.sesame,.flavor-visual.matcha,.flavor-visual.purple{background-size:cover;background-position:center 50%}
 .flavor-visual.cream{background-image:linear-gradient(180deg,rgba(4,13,23,.03),rgba(4,13,23,.22)),url("assets/moon-01-white.png")}
