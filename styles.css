@@ -17,3 +17,11 @@
 .flavor-visual.matcha{--flavor-pos:78%}
 .flavor-visual.purple{--flavor-pos:100%}
 @media(max-width:520px){.flavor-card{min-height:240px}.flavor-visual{height:125px;margin-bottom:13px}}
+
+.scene-note{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,7vw,92px);align-items:center;margin-top:74px;padding-top:34px;border-top:1px solid var(--line)}
+.scene-note-image{border:1px solid var(--line);background:#030a12;padding:10px;box-shadow:var(--shadow)}
+.scene-note-image img{display:block;width:100%;height:auto;max-height:620px;object-fit:cover}
+.scene-note-copy h3{font-family:var(--serif);font-size:clamp(36px,4.5vw,62px);font-weight:500;line-height:1.08;margin:0 0 22px}.scene-note-copy h3 span{color:var(--gold2)}
+.scene-note-copy>p{max-width:420px;color:var(--muted);font-size:15px;line-height:1.9;margin-bottom:28px}
+.scene-list{display:grid;gap:12px;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.03em}.scene-list span{padding-bottom:11px;border-bottom:1px solid rgba(220,203,160,.14)}.scene-list b{color:var(--gold);font-weight:400;margin-right:9px}
+@media(max-width:850px){.scene-note{grid-template-columns:1fr;margin-top:58px}.scene-note-copy{max-width:620px}}
