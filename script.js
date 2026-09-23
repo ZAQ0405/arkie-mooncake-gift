@@ -7,12 +7,12 @@ const recipients = {
 };
 
 const products = {
-  egg: { name: '蛋黄白莲', subtitle: '经典 · 圆满 · 家的味道', description: '咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。', image: 'assets/flavors.jpg', price: 198 },
-  tea: { name: '桂花乌龙', subtitle: '清香 · 东方 · 温柔', description: '桂花的轻盈香气落进乌龙茶韵，适合在月下慢慢分享。', image: 'assets/flavors.jpg', price: 198 },
-  custard: { name: '流心奶黄', subtitle: '浓郁 · 细腻 · 惊喜', description: '切开即见金色流心，奶香丰盈，把惊喜留给最想见的人。', image: 'assets/cutaway.jpg', price: 218 },
-  sesame: { name: '黑芝麻', subtitle: '醇厚 · 沉稳 · 回甘', description: '黑芝麻的醇厚香气与细腻口感，适合一盏茶旁的安静时刻。', image: 'assets/flavors.jpg', price: 198 },
-  matcha: { name: '抹茶柚子', subtitle: '清新 · 明亮 · 年轻', description: '抹茶的清苦遇见柚子的明亮，给中秋添一口轻盈的新鲜感。', image: 'assets/flavors.jpg', price: 198 },
-  purple: { name: '紫薯乳酪', subtitle: '柔软 · 特别 · 甜蜜', description: '紫薯的柔软与乳酪的甜润交织，适合送给喜欢特别风味的那个人。', image: 'assets/flavors.jpg', price: 198 }
+  egg: { name: '蛋黄白莲', subtitle: '经典 · 圆满 · 家的味道', description: '咸香蛋黄与细腻白莲蓉相遇，留下熟悉而完整的中秋味道。', image: 'assets/moon-01-white.png', price: 198 },
+  tea: { name: '桂花乌龙', subtitle: '清香 · 东方 · 温柔', description: '桂花的轻盈香气落进乌龙茶韵，适合在月下慢慢分享。', image: 'assets/moon-02-beige.png', price: 198 },
+  custard: { name: '流心奶黄', subtitle: '浓郁 · 细腻 · 惊喜', description: '切开即见金色流心，奶香丰盈，把惊喜留给最想见的人。', image: 'assets/moon-03-golden.png', price: 218 },
+  sesame: { name: '黑芝麻', subtitle: '醇厚 · 沉稳 · 回甘', description: '黑芝麻的醇厚香气与细腻口感，适合一盏茶旁的安静时刻。', image: 'assets/moon-04-black.png', price: 198 },
+  matcha: { name: '抹茶柚子', subtitle: '清新 · 明亮 · 年轻', description: '抹茶的清苦遇见柚子的明亮，给中秋添一口轻盈的新鲜感。', image: 'assets/moon-05-green.png', price: 198 },
+  purple: { name: '紫薯乳酪', subtitle: '柔软 · 特别 · 甜蜜', description: '紫薯的柔软与乳酪的甜润交织，适合送给喜欢特别风味的那个人。', image: 'assets/moon-06-purple.png', price: 198 }
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
