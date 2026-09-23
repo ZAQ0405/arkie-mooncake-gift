@@ -53,7 +53,7 @@ const openPurchase = (key) => {
   productSubtitle.textContent = selectedProduct.subtitle;
   productDescription.textContent = selectedProduct.description;
   productQuantity.value = 1;
-  buyButton.innerHTML = '确认购买 <span>↗</span>';
+  buyButton.innerHTML = '查看礼盒方案 <span>↗</span>';
   updateTotal();
   purchaseModal.hidden = false;
   document.body.classList.add('modal-open');
@@ -84,8 +84,30 @@ $$('[data-qty]').forEach((button) => {
 });
 productQuantity.addEventListener('input', updateTotal);
 buyButton.addEventListener('click', () => {
-  buyButton.innerHTML = '已加入购买清单 ✓';
+  buyButton.innerHTML = '已查看礼盒方案 ✓';
 });
+
+const galleryLightbox = $('#galleryLightbox');
+const galleryImage = $('#galleryImage');
+const galleryCaption = $('#galleryCaption');
+const closeGallery = () => {
+  galleryLightbox.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  window.setTimeout(() => { galleryLightbox.hidden = true; }, 220);
+};
+$$('[data-gallery-image]').forEach((tile) => {
+  tile.addEventListener('click', () => {
+    galleryImage.src = tile.dataset.galleryImage;
+    galleryCaption.textContent = tile.dataset.galleryCaption;
+    galleryImage.alt = tile.querySelector('img')?.alt || 'Arkie星火礼盒展示图';
+    galleryLightbox.hidden = false;
+    document.body.classList.add('modal-open');
+    requestAnimationFrame(() => galleryLightbox.classList.add('is-open'));
+  });
+});
+$('#closeGallery').addEventListener('click', closeGallery);
+$('.gallery-backdrop').addEventListener('click', closeGallery);
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !galleryLightbox.hidden) closeGallery(); });
 
 const audio = $('#themeAudio');
 const audioToggle = $('#audioToggle');
