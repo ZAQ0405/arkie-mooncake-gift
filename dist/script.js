@@ -163,40 +163,57 @@ const showToast = (message) => {
 
 const audio = $('#themeAudio');
 const audioToggle = $('#audioToggle');
+const floatingAudioToggle = $('#floatingAudioToggle');
+const floatingAudioLabel = $('.audio-float-label');
+const floatingAudioIcon = $('.audio-float-icon');
 const audioLabel = $('#audioLabel');
 const playIcon = $('.play-icon');
 const audioTime = $('#audioTime');
 const audioProgress = $('#audioProgress');
+let audioManuallyPaused = false;
 const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 const updateAudioProgress = () => {
   const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
   audioProgress.value = duration ? (audio.currentTime / duration) * 100 : 0;
   audioTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
 };
-audioToggle.addEventListener('click', async () => {
+const syncAudioUI = () => {
+  const playing = !audio.paused;
+  audioLabel.textContent = playing ? '暂停背景音乐' : '播放背景音乐';
+  playIcon.textContent = playing ? 'Ⅱ' : '▶';
+  audioToggle.setAttribute('aria-label', playing ? '暂停背景音乐' : '播放背景音乐');
+  floatingAudioLabel.textContent = playing ? '暂停音乐' : '背景音乐';
+  floatingAudioIcon.textContent = playing ? 'Ⅱ' : '♪';
+  floatingAudioToggle.setAttribute('aria-label', playing ? '暂停背景音乐' : '播放背景音乐');
+  floatingAudioToggle.setAttribute('aria-pressed', String(playing));
+  floatingAudioToggle.classList.toggle('is-playing', playing);
+};
+const toggleAudio = async () => {
   if (audio.paused) {
-    try {
-      await audio.play();
-      audioLabel.textContent = '暂停主题音乐';
-      playIcon.textContent = 'Ⅱ';
-      audioToggle.setAttribute('aria-label', '暂停品牌音乐');
-    } catch { showToast('音乐暂时无法播放，请检查浏览器权限'); }
+    audioManuallyPaused = false;
+    try { await audio.play(); syncAudioUI(); } catch { showToast('背景音乐需要点击后才能播放'); }
   } else {
+    audioManuallyPaused = true;
     audio.pause();
-    audioLabel.textContent = '播放主题音乐';
-    playIcon.textContent = '▶';
-    audioToggle.setAttribute('aria-label', '播放品牌音乐');
+    syncAudioUI();
   }
-});
+};
+const tryStartBackground = () => {
+  if (!audioManuallyPaused && audio.paused) audio.play().then(syncAudioUI).catch(() => {});
+};
+audioToggle.addEventListener('click', toggleAudio);
+floatingAudioToggle.addEventListener('click', toggleAudio);
+window.setTimeout(tryStartBackground, 700);
+document.addEventListener('pointerdown', (event) => { if (!event.target.closest('#audioToggle, #floatingAudioToggle')) tryStartBackground(); }, { passive: true });
 audioProgress.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(audioProgress.value) / 100) * audio.duration; });
 audio.addEventListener('loadedmetadata', updateAudioProgress);
 audio.addEventListener('timeupdate', updateAudioProgress);
 audio.addEventListener('error', () => showToast('主题音乐暂时无法加载'));
 audio.addEventListener('ended', () => {
-  audioLabel.textContent = '播放主题音乐';
-  playIcon.textContent = '▶';
+  syncAudioUI();
   updateAudioProgress();
 });
+syncAudioUI();
 
 const blessingInput = $('#blessingInput');
 const charCount = $('#charCount');
