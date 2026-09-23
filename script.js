@@ -278,6 +278,53 @@ $('#closeStudio').addEventListener('click', closeStudio);
 $('.studio-modal-backdrop').addEventListener('click', closeStudio);
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !studioModal.hidden) closeStudio(); });
 
+const serviceLauncher = $('#serviceLauncher');
+const servicePanel = $('#servicePanel');
+const serviceInput = $('#serviceInput');
+const serviceMessages = $('#serviceMessages');
+const serviceResponses = {
+  '礼盒有几种口味？': '礼盒包含六种风味：蛋黄白莲、桂花乌龙、流心奶黄、黑芝麻、抹茶柚子和紫薯乳酪。',
+  '礼盒适合送给谁？': '适合家人团聚、朋友分享、商务赠礼，也适合作为给自己的中秋小礼物。',
+  '如何保存月饼？': '建议避光、阴凉保存，开启后尽快食用，具体请以实际包装说明为准。'
+};
+const appendServiceMessage = (text, role = 'bot') => {
+  const item = document.createElement('div');
+  item.className = `service-message service-message-${role}`;
+  if (role === 'bot') { const badge = document.createElement('span'); badge.textContent = '星'; item.append(badge); }
+  const bubble = document.createElement('p'); bubble.textContent = text; item.append(bubble);
+  serviceMessages.append(item);
+  serviceMessages.scrollTop = serviceMessages.scrollHeight;
+};
+const serviceReply = (question) => {
+  const answer = serviceResponses[question] || '这个问题已收到。当前是展示版客服，建议先浏览礼盒详情和送礼指南，了解完整的中秋礼盒体验。';
+  window.setTimeout(() => appendServiceMessage(answer), 420);
+};
+const openService = () => {
+  servicePanel.hidden = false;
+  serviceLauncher.setAttribute('aria-expanded', 'true');
+  requestAnimationFrame(() => serviceInput.focus());
+};
+const closeService = () => {
+  servicePanel.hidden = true;
+  serviceLauncher.setAttribute('aria-expanded', 'false');
+};
+serviceLauncher.addEventListener('click', () => servicePanel.hidden ? openService() : closeService());
+$('#closeService').addEventListener('click', closeService);
+$$('[data-service-question]').forEach((button) => button.addEventListener('click', () => {
+  const question = button.dataset.serviceQuestion;
+  appendServiceMessage(question, 'user');
+  serviceReply(question);
+}));
+$('#serviceForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const question = serviceInput.value.trim();
+  if (!question) return;
+  appendServiceMessage(question, 'user');
+  serviceInput.value = '';
+  serviceReply(question);
+});
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !servicePanel.hidden) closeService(); });
+
 $$('video').forEach((video) => {
   video.addEventListener('error', () => {
     const fallback = video.parentElement.querySelector('.video-fallback');
