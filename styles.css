@@ -133,3 +133,14 @@ main#top>#studio{display:none}
 /* 窄屏最终修正：避免浮层重叠与内容拥挤 */
 .back-to-top{bottom:84px}.site-toast{bottom:82px}.service-message p{overflow-wrap:anywhere}
 @media(max-width:480px){.brand-name{max-width:112px;font-size:10px;letter-spacing:0}.flavor-grid{grid-template-columns:1fr;gap:12px}.flavor-card{min-height:0;padding:12px}.flavor-visual{height:155px}.flavor-visual:after{width:90px;height:90px}.recipient{padding:9px 13px;font-size:11px}.purchase-media{height:300px;min-height:300px}.purchase-media .product-shot img{height:300px}.purchase-media .package-shot{width:94px;height:126px}.gallery-dialog{width:calc(100vw - 24px);max-height:calc(100vh - 24px)}.gallery-dialog img{max-height:calc(100vh - 125px)}.gallery-dialog figcaption{padding:13px 15px;font-size:11px}.gallery-nav{width:34px;height:34px;font-size:25px}.gallery-nav-prev{left:9px}.gallery-nav-next{right:9px}.back-to-top{right:16px;bottom:78px}.site-toast{bottom:78px}}
+
+/* 移动端横向布局收口：避免页面被宽内容撑开，确保固定客服始终以视口为基准 */
+html{max-width:100%;overflow-x:hidden}
+main#top,.section-shell,.section-space,.site-header,.site-footer{min-width:0;max-width:100%}
+img,video{max-width:100%}
+@media(max-width:560px){
+  .service-widget{left:16px;right:16px;max-width:none}
+  .service-panel{width:min(350px,100%);max-width:100%}
+  .service-launcher,.service-panel{min-width:0}
+  .hero-copy,.hero-art,.story-grid>*,.section-intro>*,.ritual-head>*,.detail-strip>*,.sound-card>*,.blessing-panel>*,.studio-grid>*,.brand-system>*{min-width:0}
+}
